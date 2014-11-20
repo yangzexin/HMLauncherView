@@ -10,29 +10,29 @@
 	<string>HMLauncherViewExample</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>C15BC7BE-01ED-4BD0-A2E5-A7F690173430</key>
+		<key>E202601F62B5F428CB06667A7004076F852521A9</key>
 		<string>ssh://github.com/heikomaass/HMLauncherView.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Example/HMLauncherViewExample.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>C15BC7BE-01ED-4BD0-A2E5-A7F690173430</key>
+		<key>E202601F62B5F428CB06667A7004076F852521A9</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/heikomaass/HMLauncherView.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>C15BC7BE-01ED-4BD0-A2E5-A7F690173430</string>
+	<string>E202601F62B5F428CB06667A7004076F852521A9</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>C15BC7BE-01ED-4BD0-A2E5-A7F690173430</string>
+			<string>E202601F62B5F428CB06667A7004076F852521A9</string>
 			<key>IDESourceControlWCCName</key>
 			<string>HMLauncherView</string>
 		</dict>

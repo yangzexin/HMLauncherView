@@ -16,8 +16,8 @@
 #import "HMLauncherView.h"
 #import "HMLauncherItem.h"
 
-static const CGFloat kShakeRadians = 3.0f;
-static const NSTimeInterval kShakeTime = 0.15;
+static const CGFloat kShakeRadians = 4.0f;
+static const NSTimeInterval kShakeTime = 0.10;
 static const CGFloat kScrollingFraction = 0.25f;
 static const NSTimeInterval kScrollTimerInterval = 0.7;
 static const CGFloat kLongPressDuration = 0.3;

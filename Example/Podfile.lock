@@ -1,0 +1,14 @@
+PODS:
+  - HMLauncherView (1.0.3)
+
+DEPENDENCIES:
+  - HMLauncherView (from `../`)
+
+EXTERNAL SOURCES:
+  HMLauncherView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  HMLauncherView: 6de2d5ca40463eceb98528268361a7e391e7751e
+
+COCOAPODS: 0.34.4
