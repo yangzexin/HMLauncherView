@@ -16,7 +16,7 @@
 #import "HMLauncherView.h"
 #import "HMLauncherItem.h"
 
-static const CGFloat kShakeRadians = 4.0f;
+static const CGFloat kShakeRadians = 3.0f;
 static const NSTimeInterval kShakeTime = 0.10;
 static const CGFloat kScrollingFraction = 0.25f;
 static const NSTimeInterval kScrollTimerInterval = 0.7;
@@ -186,7 +186,7 @@ static const CGFloat kLongPressDuration = 0.3;
 }
 
 - (void) layoutIconsAnimated {
-    [UIView animateWithDuration:0.75
+    [UIView animateWithDuration:0.25
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction
                      animations:^{
