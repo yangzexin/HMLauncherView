@@ -71,7 +71,9 @@
     if (self = [super initWithFrame:frame]) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         _launcherViewLeft = [[HMLauncherView alloc] initWithFrame:CGRectZero];
+        _launcherViewLeft.backgroundColor = [UIColor whiteColor];
         _launcherViewRight = [[HMLauncherView alloc] initWithFrame:CGRectZero];
+        _launcherViewRight.backgroundColor = [UIColor whiteColor];
         _changePageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [_changePageButton setTitle:@"Switch Page" forState:UIControlStateNormal];
         [self addSubview:_launcherViewLeft];

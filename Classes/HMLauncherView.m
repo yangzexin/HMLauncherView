@@ -19,7 +19,7 @@
 static const CGFloat kShakeRadians = 3.0f;
 static const NSTimeInterval kShakeTime = 0.10;
 static const CGFloat kScrollingFraction = 0.25f;
-static const NSTimeInterval kScrollTimerInterval = 0.7;
+static const NSTimeInterval kScrollTimerInterval = 0.25;
 static const CGFloat kLongPressDuration = 0.3;
 
 
