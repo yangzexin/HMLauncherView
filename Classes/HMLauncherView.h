@@ -56,5 +56,7 @@
 @property (nonatomic, weak) NSObject<HMLauncherViewDelegate> *delegate;
 @property (nonatomic, strong) NSString *persistKey;
 @property (nonatomic, weak) UIView *keyView;
+@property (nonatomic, assign) BOOL shouldAddNewPageWhenEditing;
+@property (nonatomic, strong, readonly) UIPageControl *pageControl;
 
 @end

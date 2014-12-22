@@ -16,7 +16,7 @@
 #import "HMLauncherView.h"
 #import "HMLauncherItem.h"
 
-static const CGFloat kShakeRadians = 3.0f;
+static const CGFloat kShakeRadians = 2.0f;
 static const NSTimeInterval kShakeTime = 0.10;
 static const CGFloat kScrollingFraction = 0.25f;
 static const NSTimeInterval kScrollTimerInterval = 0.25;
@@ -529,6 +529,9 @@ static const CGFloat kLongPressDuration = 0.3;
 }
 
 - (NSInteger) calculateSpringOffset:(HMLauncherIcon*) icon {
+    if (!self.shouldAddNewPageWhenEditing) {
+        return 0;
+    }
     CGSize iconSize = [self.dataSource buttonDimensionsInLauncherView:self];
     CGFloat springWidth = iconSize.width * kScrollingFraction;
     CGRect iconRectInLauncherView = [self convertRect:icon.frame fromView:icon.superview];
@@ -777,6 +780,7 @@ static const CGFloat kLongPressDuration = 0.3;
                              ];
         [_pageControl setHidesForSinglePage:YES];
         [self addSubview:_pageControl];
+        self.shouldAddNewPageWhenEditing = YES;
     }
     return self;
 }
