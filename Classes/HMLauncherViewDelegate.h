@@ -30,6 +30,8 @@
 - (BOOL) launcherViewShouldStopEditingAfterDraggingEnds:(HMLauncherView *)launcherView;
 
 @optional
+- (void) launcherView:(HMLauncherView*) launcherView didLongPress:(HMLauncherIcon *)icon;
+
 - (void) launcherView:(HMLauncherView*) launcherView didStartDragging:(HMLauncherIcon*) icon;
 
 - (void) launcherView:(HMLauncherView*) launcherView didStopDragging:(HMLauncherIcon*) icon;
@@ -40,10 +42,13 @@
 
 - (void) launcherView:(HMLauncherView*) launcherView didDeleteIcon:(HMLauncherIcon*) icon;
 
+- (BOOL) launcherView:(HMLauncherView*) launcherView shouldMoveIcon:(HMLauncherIcon *)icon;
+
+- (BOOL) launcherView:(HMLauncherView*) launcherView shouldStoreIconAtPageIndex:(NSUInteger)pageIndex iconIndex:(NSUInteger)iconIndex;
+
 - (void) launcherView:(HMLauncherView*) launcherView willMoveIcon:(HMLauncherIcon*) icon 
             fromIndex:(NSIndexPath*) fromIndex 
               toIndex:(NSIndexPath*) toIndex;
-
 
 - (void) launcherViewDidAppear:(HMLauncherView *)launcherView;
 

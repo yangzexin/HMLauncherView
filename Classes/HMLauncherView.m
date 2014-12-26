@@ -255,11 +255,21 @@ static const CGFloat kLongPressDuration = 0.3;
                 [icon setBounds:CGRectMake(0, 0, iconSize.width, iconSize.height)];
                 CGPoint iconCenterInScrollView = CGPointMake(iconX + iconSize.width / 2, iconY + iconSize.height / 2);
                 if (icon != self.dragIcon) {
-                    [icon setCenter:iconCenterInScrollView];
+                    if (self.editing) {
+                        [icon setCenter:iconCenterInScrollView];
+                    } else {
+                        BOOL shouldMove = YES;
+                        if (self.editing && [self.delegate respondsToSelector:@selector(launcherView:shouldMoveIcon:)]) {
+                            shouldMove = [self.delegate launcherView:self shouldMoveIcon:icon];
+                        }
+                        if (shouldMove) {
+                            [icon setCenter:iconCenterInScrollView];
+                        }
+                    }
                 } else if (self.shouldLayoutDragButton) {
                     CGPoint iconCenterInKeyView = [self.scrollView convertPoint:iconCenterInScrollView 
                                                                          toView:icon.superview];
-                    [icon setCenter:iconCenterInKeyView];           
+                    [icon setCenter:iconCenterInKeyView];
                 }
             }
             currentColumnIndex++;  
@@ -345,15 +355,19 @@ static const CGFloat kLongPressDuration = 0.3;
 }
 
 - (void) longPressBegan:(HMLauncherIcon*) icon {
-    if (!self.editing) {
-        [self startEditing];
-        if ([self.delegate respondsToSelector:@selector(launcherViewDidStartEditing:)]) {
-            [self.delegate launcherViewDidStartEditing:self];
+    if ([self.delegate respondsToSelector:@selector(launcherView:didLongPress:)]) {
+        [self.delegate launcherView:self didLongPress:icon];
+    } else {
+        if (!self.editing) {
+            [self startEditing];
+            if ([self.delegate respondsToSelector:@selector(launcherViewDidStartEditing:)]) {
+                [self.delegate launcherViewDidStartEditing:self];
+            }
         }
+        NSIndexPath *originIndexPath = [self iconIndexForPoint:icon.center];
+        [icon setOriginIndexPath:originIndexPath];
+        [self makeIconDraggable:icon];
     }
-    NSIndexPath *originIndexPath = [self iconIndexForPoint:icon.center];
-    [icon setOriginIndexPath:originIndexPath];
-    [self makeIconDraggable:icon];
 }
 
 - (void) performMove:(HMLauncherIcon *)icon toPoint:(CGPoint)newCenter launcherView:(HMLauncherView *)launcherView {
@@ -375,8 +389,14 @@ static const CGFloat kLongPressDuration = 0.3;
             [self.delegate launcherView:self willMoveIcon:icon fromIndex:previousIndexPath toIndex:indexPath];
         }
     }
-    [launcherView setTargetPath:indexPath];
-    [launcherView setDragIcon:icon];
+    BOOL shouldStore = YES;
+    if ([self.delegate respondsToSelector:@selector(launcherView:shouldStoreIconAtPageIndex:iconIndex:)]) {
+        shouldStore = [self.delegate launcherView:self shouldStoreIconAtPageIndex:[indexPath pageIndex] iconIndex:[indexPath iconIndex]];
+    }
+    if (shouldStore) {
+        [launcherView setTargetPath:indexPath];
+        [launcherView setDragIcon:icon];
+    }
 }
 
 - (void) longPressMoved:(HMLauncherIcon*) icon toPoint:(CGPoint) newCenter {
@@ -453,7 +473,9 @@ static const CGFloat kLongPressDuration = 0.3;
     if (editing == NO) {
         editing = YES;
         [self.dataSource removeEmptyPages:self];
-        [self.dataSource addPageToLauncherView:self];
+        if (self.shouldAddNewPageWhenEditing) {
+            [self.dataSource addPageToLauncherView:self];
+        }
         [self updateDeleteButtons];
         [self updateScrollViewContentSize];        
         [self updatePager];
@@ -755,11 +777,13 @@ static const CGFloat kLongPressDuration = 0.3;
         [self.dataSource launcherView:self removeIcon:self.closingIcon];
         [self removeIconAnimated:self.closingIcon 
                       completion:^{
-                          self.closingIcon = nil;                          
-                          [self stopEditing];
-                          if ([self.delegate respondsToSelector:@selector(launcherViewDidStopEditing:)]) {
-                              [self.delegate launcherViewDidStopEditing:self];
-                          }
+                          self.closingIcon = nil;
+//                          [self stopEditing];
+//                          if ([self.delegate respondsToSelector:@selector(launcherViewDidStopEditing:)]) {
+//                              [self.delegate launcherViewDidStopEditing:self];
+//                          }
+                          
+                          [self layoutIconsAnimated];
                       }];
     };
 }
