@@ -20,7 +20,7 @@ static const CGFloat kShakeRadians = 2.0f;
 static const NSTimeInterval kShakeTime = 0.10;
 static const CGFloat kScrollingFraction = 0.25f;
 static const NSTimeInterval kScrollTimerInterval = 0.25;
-static const CGFloat kLongPressDuration = 0.3;
+static const CGFloat kLongPressDuration = 0.5;
 
 
 @implementation NSIndexPath(LauncherPath)
@@ -124,7 +124,7 @@ static const CGFloat kLongPressDuration = 0.3;
         tapGestureRecognizer = [self launcherIcon:icon addTapRecognizerWithNumberOfTapsRequred:1];
     } 
     if (icon.canBeDragged) {
-        [self launcherIcon:icon addLongPressGestureRecognizerWithDuration:kLongPressDuration requireGestureRecognizerToFail:tapGestureRecognizer];
+        [self launcherIcon:icon addLongPressGestureRecognizerWithDuration:kLongPressDuration requireGestureRecognizerToFail:nil];
     }   
     [self.scrollView addSubview:icon];
 }
