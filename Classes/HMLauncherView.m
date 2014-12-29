@@ -785,7 +785,9 @@ static const CGFloat kLongPressDuration = 0.5;
                           
                           [self layoutIconsAnimated];
                       }];
-    };
+    } else {
+        self.closingIcon = nil;
+    }
 }
 
 #pragma mark - lifecycle
