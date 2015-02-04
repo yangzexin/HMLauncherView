@@ -40,6 +40,8 @@
 
 - (void) launcherView:(HMLauncherView*) launcherView willAddIcon:(HMLauncherIcon*) icon;
 
+- (NSString *)launcherView:(HMLauncherView*) launcherView messageForDeletingIcon:(HMLauncherIcon *)icon;
+
 - (void) launcherView:(HMLauncherView*) launcherView didDeleteIcon:(HMLauncherIcon*) icon;
 
 - (BOOL) launcherView:(HMLauncherView*) launcherView shouldMoveIcon:(HMLauncherIcon *)icon;

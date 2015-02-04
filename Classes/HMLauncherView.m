@@ -311,8 +311,15 @@ static const CGFloat kLongPressDuration = 0.5;
     HMLauncherIcon *launcherIcon = (HMLauncherIcon*) sender.view;
     CGPoint locationInView = [sender locationOfTouch:0 inView:launcherIcon];
     if (self.editing && [launcherIcon hitCloseButton:locationInView]) {
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"HMLauncherView_ConfirmDelete", nil), launcherIcon.launcherItem.titleText];
+        NSString *message = nil;
         
+        if ([self.delegate respondsToSelector:@selector(launcherView:messageForDeletingIcon:)]) {
+            message = [self.delegate launcherView:self messageForDeletingIcon:launcherIcon];
+        }
+        
+        if (message.length == 0) {
+            message = [NSString stringWithFormat:NSLocalizedString(@"HMLauncherView_ConfirmDelete", nil), launcherIcon.launcherItem.titleText];
+        }
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HMLauncherView_Alert", nil) 
                                                             message:message
