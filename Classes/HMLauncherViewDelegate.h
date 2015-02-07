@@ -60,5 +60,7 @@
 
 - (void) launcherViewDidStopEditing:(HMLauncherView*) launcherView;
 
+- (void) launcherView:(HMLauncherView *)launcherView confirmDeletingIcon:(HMLauncherIcon *)icon callback:(void(^)(BOOL _delete))callback;
+
 
 @end

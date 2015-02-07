@@ -311,23 +311,31 @@ static const CGFloat kLongPressDuration = 0.5;
     HMLauncherIcon *launcherIcon = (HMLauncherIcon*) sender.view;
     CGPoint locationInView = [sender locationOfTouch:0 inView:launcherIcon];
     if (self.editing && [launcherIcon hitCloseButton:locationInView]) {
-        NSString *message = nil;
-        
-        if ([self.delegate respondsToSelector:@selector(launcherView:messageForDeletingIcon:)]) {
-            message = [self.delegate launcherView:self messageForDeletingIcon:launcherIcon];
-        }
-        
-        if (message.length == 0) {
-            message = [NSString stringWithFormat:NSLocalizedString(@"HMLauncherView_ConfirmDelete", nil), launcherIcon.launcherItem.titleText];
-        }
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HMLauncherView_Alert", nil) 
-                                                            message:message
-                                                           delegate:self 
-                                                  cancelButtonTitle:NSLocalizedString(@"HMLauncherView_Cancel",nil)
-                                                  otherButtonTitles:NSLocalizedString(@"HMLauncherView_Ok", nil), nil];
         self.closingIcon = launcherIcon;
-        [alertView show];
+        if ([self.delegate respondsToSelector:@selector(launcherView:confirmDeletingIcon:callback:)]) {
+            __weak typeof(self) weakSelf = self;
+            [self.delegate launcherView:self confirmDeletingIcon:launcherIcon callback:^(BOOL _delete) {
+                __strong typeof(weakSelf) self = weakSelf;
+                [self _handleRemoveClosingIconWithDelete:_delete];
+            }];
+        } else {
+            NSString *message = nil;
+            
+            if ([self.delegate respondsToSelector:@selector(launcherView:messageForDeletingIcon:)]) {
+                message = [self.delegate launcherView:self messageForDeletingIcon:launcherIcon];
+            }
+            
+            if (message.length == 0) {
+                message = [NSString stringWithFormat:NSLocalizedString(@"HMLauncherView_ConfirmDelete", nil), launcherIcon.launcherItem.titleText];
+            }
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HMLauncherView_Alert", nil)
+                                                                message:message
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"HMLauncherView_Cancel",nil)
+                                                      otherButtonTitles:NSLocalizedString(@"HMLauncherView_Ok", nil), nil];
+            [alertView show];
+        }
     } else {
         if ([self.delegate respondsToSelector:@selector(launcherView:didTapLauncherIcon:)]) {
             [self.delegate launcherView:self didTapLauncherIcon:launcherIcon];            
@@ -777,12 +785,12 @@ static const CGFloat kLongPressDuration = 0.5;
     return [NSString stringWithFormat:@"%@", self.persistKey];
 }
 
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger) buttonIndex {
-    if (buttonIndex != alertView.cancelButtonIndex) {
+- (void)_handleRemoveClosingIconWithDelete:(BOOL)_delete
+{
+    if (_delete) {
         NSParameterAssert(self.closingIcon != nil);
         [self.dataSource launcherView:self removeIcon:self.closingIcon];
-        [self removeIconAnimated:self.closingIcon 
+        [self removeIconAnimated:self.closingIcon
                       completion:^{
                           self.closingIcon = nil;
 //                          [self stopEditing];
@@ -795,6 +803,11 @@ static const CGFloat kLongPressDuration = 0.5;
     } else {
         self.closingIcon = nil;
     }
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger) buttonIndex {
+    [self _handleRemoveClosingIconWithDelete:buttonIndex != alertView.cancelButtonIndex];
 }
 
 #pragma mark - lifecycle
